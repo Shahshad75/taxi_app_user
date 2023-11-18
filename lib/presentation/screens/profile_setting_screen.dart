@@ -7,6 +7,9 @@ import 'package:taxi_app_user/presentation/widget/common/button.dart';
 import 'package:taxi_app_user/presentation/widget/common/date_picker.dart';
 import 'package:taxi_app_user/presentation/widget/common/number_field.dart';
 import 'package:taxi_app_user/presentation/widget/common/textfield.dart';
+import 'package:taxi_app_user/service/repository.dart';
+import 'package:taxi_app_user/service/sharedpref.dart';
+import 'package:taxi_app_user/service/user.dart';
 
 import '../bloc/profile_bloc/profile_bloc.dart';
 
@@ -14,6 +17,9 @@ class ProfileIndroScreen extends StatelessWidget {
   ProfileIndroScreen({super.key});
   final datebirthController = TextEditingController();
   final genderController = TextEditingController();
+  final fullNamgeController = TextEditingController();
+  final nickNameController = TextEditingController();
+  final phonNumberController = TextEditingController();
   final DatePickerFun datePickerFun = DatePickerFun();
   final List<String> items = ['None', 'Male', 'Female'];
   final String selectGender = 'None';
@@ -30,8 +36,14 @@ class ProfileIndroScreen extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 25),
             child: Column(
               children: [
-                const CustomTextfield(hintText: 'Full name'),
-                const CustomTextfield(hintText: 'Nick name'),
+                CustomTextfield(
+                  hintText: 'Full name',
+                  controller: fullNamgeController,
+                ),
+                CustomTextfield(
+                  hintText: 'Nick name',
+                  controller: nickNameController,
+                ),
                 BlocBuilder<ProfileBloc, ProfileState>(
                   builder: (context, state) {
                     if (state is DatePickedState) {
@@ -92,10 +104,30 @@ class ProfileIndroScreen extends StatelessWidget {
                   padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
                   child: CustomButton(
                     text: "Continue",
-                    onTap: () {
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const BottamSheet(),
-                      ));
+                    onTap: () async {
+                      if (fullNamgeController.text.isNotEmpty &&
+                          nickNameController.text.isNotEmpty &&
+                          datebirthController.text.isNotEmpty) {
+                        Map? userAuth =
+                            await Sharedpref.instence.getAuthDetails();
+                        print(userAuth);
+                        User user = User(
+                            fullname: fullNamgeController.text,
+                            birthdate: datebirthController.text,
+                            email: userAuth!['email'],
+                            password: userAuth['password'],
+                            phonenumber: phonNumberController.text,
+                            gender: genderController.text,
+                            image: 'hi babz');
+                        int? id = await Repo.userSignUp(user);
+                        print("==================$id");
+                        if (id != null) {
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                            builder: (context) => const CustomBottamSheet(),
+                          ));
+                        }
+                      }
                     },
                   ),
                 )

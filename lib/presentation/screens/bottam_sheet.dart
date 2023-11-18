@@ -8,14 +8,14 @@ import 'package:taxi_app_user/presentation/screens/home_screen.dart';
 import 'package:taxi_app_user/presentation/screens/payment_screen.dart';
 import 'package:taxi_app_user/presentation/screens/profile_screen.dart';
 
-class BottamSheet extends StatefulWidget {
-  const BottamSheet({super.key});
+class CustomBottamSheet extends StatefulWidget {
+  const CustomBottamSheet({super.key});
 
   @override
-  _BottamSheetState createState() => _BottamSheetState();
+  _CustomBottamSheetState createState() => _CustomBottamSheetState();
 }
 
-class _BottamSheetState extends State<BottamSheet> {
+class _CustomBottamSheetState extends State<CustomBottamSheet> {
   final PageController _pageController = PageController(initialPage: 0);
   int _currentIndex = 0;
 
@@ -29,7 +29,7 @@ class _BottamSheetState extends State<BottamSheet> {
             _currentIndex = index;
           });
         },
-        children: const [
+        children:const [
           HomeScreen(),
           BookingScreen(),
           PaymentScreen(),

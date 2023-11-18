@@ -1,16 +1,22 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/button_list.dart';
 import 'package:flutter_signin_button/button_view.dart';
+import 'package:taxi_app_user/presentation/screens/bottam_sheet.dart';
 import 'package:taxi_app_user/presentation/screens/signup_screen.dart';
 import 'package:taxi_app_user/presentation/widget/rich_text.dart';
+import 'package:taxi_app_user/service/repository.dart';
+import 'package:taxi_app_user/service/user.dart';
 
 import '../../utils/app_text_styles.dart';
 import '../widget/common/button.dart';
 import '../widget/common/textfield.dart';
 
 class LoginScreen extends StatelessWidget {
-  const LoginScreen({super.key});
-
+  LoginScreen({super.key});
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -91,15 +97,27 @@ class LoginScreen extends StatelessWidget {
                   children: [
                     CustomButton(
                         text: "Sign up",
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => const SingupScreen(),
-                          ));
+                        onTap: () async {
+                          User? user = await Repo.userSignin(
+                              emailController.text.trim(),
+                              passwordController.text.trim());
+                          if (user != null) {
+                            Navigator.of(context).push(MaterialPageRoute(
+                              builder: (context) => const CustomBottamSheet(),
+                            ));
+                          }
                         }),
-                    richText(
-                        context: context,
-                        firstTxt: "Dont have an Account?  ",
-                        secondTxt: "Sign-up")
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                          builder: (context) => SingupScreen(),
+                        ));
+                      },
+                      child: richText(
+                          context: context,
+                          firstTxt: "Dont have an Account?  ",
+                          secondTxt: "Sign-up"),
+                    )
                   ],
                 ),
               ),

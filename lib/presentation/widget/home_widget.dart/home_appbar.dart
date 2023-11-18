@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:taxi_app_user/presentation/screens/search_screen.dart';
-
+import 'package:taxi_app_user/service/mapbox.dart';
 
 class HomeAppbar extends StatelessWidget {
   const HomeAppbar({super.key});
@@ -31,7 +31,7 @@ class HomeAppbar extends StatelessWidget {
                         //   builder: (context) => BottomSheetContent(),
                         // );
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => SearchScreen(),
+                          builder: (context) => const SearchScreen(),
                         ));
                       },
                       icon: const Icon(
@@ -49,7 +49,9 @@ class HomeAppbar extends StatelessWidget {
                     child: CircleAvatar(
                       backgroundColor: const Color.fromARGB(255, 247, 208, 92),
                       child: IconButton(
-                        onPressed: () {},
+                        onPressed: () async {
+                          await MapBoxHelper.getDirection();
+                        },
                         icon: const Icon(
                           CupertinoIcons.bell,
                           color: Color.fromARGB(255, 63, 63, 63),

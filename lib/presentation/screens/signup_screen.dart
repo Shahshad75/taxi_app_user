@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:taxi_app_user/presentation/screens/profile_setting_screen.dart';
+import 'package:taxi_app_user/service/sharedpref.dart';
 import 'package:taxi_app_user/utils/app_text_styles.dart';
 
 import '../widget/common/button.dart';
@@ -8,8 +9,9 @@ import '../widget/common/textfield.dart';
 import '../widget/rich_text.dart';
 
 class SingupScreen extends StatelessWidget {
-  const SingupScreen({super.key});
-
+  SingupScreen({super.key});
+  final emailController = TextEditingController();
+  final passwordController = TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -42,8 +44,12 @@ class SingupScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const CustomTextfield(hintText: "Enter Your Email"),
-                    const CustomTextfield(hintText: "Enter Your Password"),
+                    CustomTextfield(
+                        controller: emailController,
+                        hintText: "Enter Your Email"),
+                    CustomTextfield(
+                        controller: passwordController,
+                        hintText: "Enter Your Password"),
                     Container(
                       padding: const EdgeInsets.all(16.0),
                       child: const Row(
@@ -90,10 +96,19 @@ class SingupScreen extends StatelessWidget {
                   children: [
                     CustomButton(
                         text: "Sign up",
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => ProfileIndroScreen(),
-                          ));
+                        onTap: () async {
+                          if (emailController.text.isNotEmpty ||
+                              passwordController.text.isNotEmpty) {
+                            await Sharedpref.instence.setAuthDetaials(
+                                emailController.text.trim(),
+                                passwordController.text.trim());
+
+                            Navigator.of(context)
+                                .pushReplacement(MaterialPageRoute(
+                              builder: (context) => ProfileIndroScreen(),
+                            ));
+                          }
+                          // Sharedpref.instence.signout();
                         }),
                     richText(
                         context: context,

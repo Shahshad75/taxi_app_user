@@ -16,7 +16,7 @@ class SecondIndroScreen extends StatelessWidget {
         child: FloatingActionButton(
           onPressed: () {
             Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>const LoginScreen(),
+              builder: (context) => LoginScreen(),
             ));
           },
           backgroundColor: Appcolor.primaryColor,
