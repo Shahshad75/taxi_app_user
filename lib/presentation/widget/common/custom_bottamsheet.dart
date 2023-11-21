@@ -5,6 +5,7 @@ import 'package:taxi_app_user/presentation/bloc/home_bloc/home_bloc.dart';
 import 'package:taxi_app_user/presentation/widget/common/button.dart';
 import 'package:taxi_app_user/presentation/widget/common/dropdown_button.dart';
 import 'package:taxi_app_user/presentation/widget/common/textfield.dart';
+import 'package:taxi_app_user/service/drivers_model.dart';
 import 'package:taxi_app_user/utils/app_text_styles.dart';
 
 class BottomSheetContent extends StatelessWidget {
@@ -15,22 +16,23 @@ class BottomSheetContent extends StatelessWidget {
     "SUV (Sport Utility Vehicle)",
     "Hatchback"
   ];
+  // final WebSocketService _webSocketService = WebSocketService();
   @override
   Widget build(BuildContext context) {
     return BlocConsumer<HomeBloc, HomeState>(
       listener: (context, state) {},
       builder: (context, state) {
         if (state is VehicleTypeSetState) {
-          return chooseCares(context);
+          return chooseCares(context, state.drivers);
         } else if (state is SelectCarState) {
-          return driverInfo();
+          return driverInfo(state.driver, context);
         }
         return settinVehicletype(context);
       },
     );
   }
 
-  Widget chooseCares(BuildContext context) {
+  Widget chooseCares(BuildContext context, List drivers) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Column(
@@ -52,9 +54,13 @@ class BottomSheetContent extends StatelessWidget {
           Expanded(
             child: SizedBox(
                 child: ListView.builder(
-              itemCount: 10,
+              itemCount: drivers.length,
               itemBuilder: (context, index) {
                 return ListTile(
+                  onTap: () {
+                    context.read<HomeBloc>().add(SelectCarEvent(
+                        driver: Driver.fromJson(drivers[index])));
+                  },
                   leading: CircleAvatar(
                     radius: 35,
                     backgroundColor: Colors.white,
@@ -67,11 +73,11 @@ class BottomSheetContent extends StatelessWidget {
                       fit: BoxFit.fill,
                     ),
                   ),
-                  title: const Text(
-                    "Kochi Airport Bus Terminal",
+                  title: Text(
+                    drivers[index]['Name'],
                     style: CustomTextStyle.buttonTextStyle,
                   ),
-                  subtitle: const Text('Drop-off'),
+                  subtitle: Text(drivers[index]['VehicleType']),
                   trailing: const Text(
                     "\$ 344",
                     style: TextStyle(
@@ -83,21 +89,21 @@ class BottomSheetContent extends StatelessWidget {
               },
             )),
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
-            child: CustomButton(
-              text: "Continue",
-              onTap: () {
-                context.read<HomeBloc>().add(SelectCarEvent());
-              },
-            ),
-          )
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
+          //   child: CustomButton(
+          //     text: "Continue",
+          //     onTap: () {
+          //
+          //     },
+          //   ),
+          // )
         ],
       ),
     );
   }
 
-  Widget driverInfo() {
+  Widget driverInfo(Driver driver, BuildContext context) {
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 16.0),
       child: Column(
@@ -119,18 +125,18 @@ class BottomSheetContent extends StatelessWidget {
           Expanded(
             child: SizedBox(
                 child: ListView(children: [
-              const ListTile(
-                leading: CircleAvatar(
+              ListTile(
+                leading: const CircleAvatar(
                   radius: 35,
                   backgroundColor: Colors.white,
                   backgroundImage: AssetImage('asset/image/sedan.png'),
                 ),
                 title: Text(
-                  "Maruti Suzuki Swift Dzire",
+                  driver.vehicleBrand,
                   style: CustomTextStyle.buttonTextStyle,
                 ),
-                subtitle: Text('KL60F95414'),
-                trailing: SizedBox(
+                subtitle: Text(driver.vehicleNumber),
+                trailing: const SizedBox(
                   width: 70,
                   height: 30,
                   child: Row(
@@ -149,17 +155,17 @@ class BottomSheetContent extends StatelessWidget {
                 ),
               ),
               ListTile(
-                leading: const CircleAvatar(
-                  backgroundImage: AssetImage(
-                    'asset/image/unknown.png',
+                leading: CircleAvatar(
+                  backgroundImage: NetworkImage(
+                    driver.driverImg,
                   ),
                   radius: 34,
                 ),
-                title: const Text(
-                  'Bimal Varkey',
+                title: Text(
+                  driver.name,
                   style: CustomTextStyle.buttonTextStyle,
                 ),
-                subtitle: const Text('he knows Malayalam,English'),
+                subtitle: Text(driver.gender),
                 trailing:
                     IconButton(onPressed: () {}, icon: const Icon(Icons.call)),
               ),
@@ -170,7 +176,6 @@ class BottomSheetContent extends StatelessWidget {
                     'The picup point for Kochi Marriott Hotel',
                     style: CustomTextStyle.buttonTextStyle,
                   ),
-                  // subtitle: Text('he knows Malayalam,English'),
                   trailing: Text(
                     '\$491.77',
                     style: TextStyle(
@@ -216,7 +221,12 @@ class BottomSheetContent extends StatelessWidget {
             padding: const EdgeInsets.symmetric(horizontal: 30, vertical: 10),
             child: CustomButton(
               text: "Continue",
-              onTap: () {},
+              onTap: () {
+                // print('hie');
+                // _webSocketService.connect();
+                // _webSocketService.send('Ride Booked');
+                context.read<HomeBloc>().add(ConfirmDriveEvent(driver: driver));
+              },
             ),
           )
         ],
@@ -280,7 +290,7 @@ class BottomSheetContent extends StatelessWidget {
                   child: CustomButton(
                     text: "Continue",
                     onTap: () {
-                      context.read<HomeBloc>().add(VehicleTypeSetEvnet());
+                      // context.read<HomeBloc>().add(VehicleTypeSetEvnet());
                     },
                   ),
                 )

@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taxi_app_user/presentation/bloc/home_bloc/home_bloc.dart';
 import 'package:taxi_app_user/presentation/bloc/map_box_bloc/mapbox_bloc.dart';
+import '../common/custom_bottamsheet.dart';
 import '../common/textfield.dart';
 
 class LocationPickerBar extends StatelessWidget {
   LocationPickerBar({super.key});
   final picupLocation = TextEditingController();
   final endLoaction = TextEditingController();
+  double startlat = 0;
+  double startlong = 0;
+  double endlat = 0;
+  double endlong = 0;
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -54,6 +60,8 @@ class LocationPickerBar extends StatelessWidget {
                           builder: (context, state) {
                             if (state is SelectPicLocationState) {
                               picupLocation.text = state.location;
+                              startlat = state.latitude;
+                              startlong = state.longitude;
                             }
                             return CustomTextfield(
                               controller: picupLocation,
@@ -70,6 +78,8 @@ class LocationPickerBar extends StatelessWidget {
                           builder: (context, state) {
                             if (state is SelectEndLocationState) {
                               endLoaction.text = state.location;
+                              endlat = state.latitude;
+                              endlong = state.longitude;
                             }
                             return CustomTextfield(
                               controller: endLoaction,
@@ -89,11 +99,20 @@ class LocationPickerBar extends StatelessWidget {
               ),
             ],
           ),
-          ElevatedButton(onPressed: () {
-            if(picupLocation.text.trim().isNotEmpty&&endLoaction.text.isNotEmpty){
-              
-            }
-          }, child: const Text('Confirm'))
+          ElevatedButton(
+              onPressed: () {
+                Navigator.of(context).pop();
+                context.read<HomeBloc>().add(VehicleTypeSetEvnet(
+                    piclat: startlat,
+                    piclong: startlong,
+                    endlat: endlat,
+                    endlong: endlong));
+                showModalBottomSheet(
+                  context: context,
+                  builder: (BuildContext context) => BottomSheetContent(),
+                );
+              },
+              child: const Text('Confirm'))
         ],
       ),
     );

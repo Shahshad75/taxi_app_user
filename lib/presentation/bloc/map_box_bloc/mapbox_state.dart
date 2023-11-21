@@ -11,7 +11,12 @@ final class PickupLocationState extends MapboxState {
 
 final class SelectPicLocationState extends MapboxState {
   String location;
-  SelectPicLocationState({required this.location});
+  double longitude;
+  double latitude;
+  SelectPicLocationState(
+      {required this.location,
+      required this.latitude,
+      required this.longitude});
 }
 
 final class EndLocationState extends MapboxState {
@@ -21,5 +26,10 @@ final class EndLocationState extends MapboxState {
 
 final class SelectEndLocationState extends MapboxState {
   String location;
-  SelectEndLocationState({required this.location});
+  double longitude;
+  double latitude;
+  SelectEndLocationState(
+      {required this.location,
+      required this.latitude,
+      required this.longitude});
 }

@@ -1,9 +1,6 @@
 import 'dart:async';
-
 import 'package:bloc/bloc.dart';
-
 import '../../../service/mapbox.dart';
-
 part 'mapbox_event.dart';
 part 'mapbox_state.dart';
 
@@ -23,7 +20,8 @@ class MapboxBloc extends Bloc<MapboxEvent, MapboxState> {
 
   FutureOr<void> locationSelectedEvent(
       LocationSelectedEvent event, Emitter<MapboxState> emit) {
-    emit(SelectPicLocationState(location: event.location));
+    emit(SelectPicLocationState(
+        location: event.location, latitude: event.lant, longitude: event.long));
   }
 
   FutureOr<void> searchEndEevent(
@@ -34,6 +32,7 @@ class MapboxBloc extends Bloc<MapboxEvent, MapboxState> {
 
   FutureOr<void> endLocationEvent(
       EndLocationEvent event, Emitter<MapboxState> emit) {
-    emit(SelectEndLocationState(location: event.location));
+    emit(SelectEndLocationState(
+        location: event.location, latitude: event.lant, longitude: event.long));
   }
 }

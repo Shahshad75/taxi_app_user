@@ -21,7 +21,7 @@ class LoginScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
             Expanded(
                 child: SizedBox(
@@ -51,38 +51,38 @@ class LoginScreen extends StatelessWidget {
                     ),
                     const CustomTextfield(hintText: "Enter Your Email"),
                     const CustomTextfield(hintText: "Enter Your Password"),
-                    Container(
-                      padding: const EdgeInsets.all(16.0),
-                      child: const Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              thickness: 1,
-                              color: Color.fromARGB(255, 183, 183, 183),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text(
-                              "OR",
-                              style: CustomTextStyle.buttonTextStyle,
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              thickness: 1,
-                              color: Color.fromARGB(255, 189, 189, 189),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SignInButton(
-                      elevation: 0,
-                      Buttons.Google,
-                      padding: const EdgeInsets.only(left: 20),
-                      onPressed: () {},
-                    ),
+                    // Container(
+                    //   padding: const EdgeInsets.all(16.0),
+                    //   child: const Row(
+                    //     children: [
+                    //       Expanded(
+                    //         child: Divider(
+                    //           thickness: 1,
+                    //           color: Color.fromARGB(255, 183, 183, 183),
+                    //         ),
+                    //       ),
+                    //       Padding(
+                    //         padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    //         child: Text(
+                    //           "OR",
+                    //           style: CustomTextStyle.buttonTextStyle,
+                    //         ),
+                    //       ),
+                    //       Expanded(
+                    //         child: Divider(
+                    //           thickness: 1,
+                    //           color: Color.fromARGB(255, 189, 189, 189),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // SignInButton(
+                    //   elevation: 0,
+                    //   Buttons.Google,
+                    //   padding: const EdgeInsets.only(left: 20),
+                    //   onPressed: () {},
+                    // ),
                   ],
                 ),
               ),
@@ -98,13 +98,26 @@ class LoginScreen extends StatelessWidget {
                     CustomButton(
                         text: "Sign up",
                         onTap: () async {
-                          User? user = await Repo.userSignin(
-                              emailController.text.trim(),
-                              passwordController.text.trim());
-                          if (user != null) {
-                            Navigator.of(context).push(MaterialPageRoute(
-                              builder: (context) => const CustomBottamSheet(),
-                            ));
+                          if (emailController.text.isNotEmpty &&
+                              passwordController.text.isNotEmpty) {
+                            User? user = await Repo.userSignin(
+                                emailController.text.trim(),
+                                passwordController.text.trim());
+                            if (user != null) {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                builder: (context) => const CustomBottamSheet(),
+                              ));
+                            }
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor:
+                                        Color.fromARGB(255, 255, 87, 58),
+                                    behavior: SnackBarBehavior.floating,
+                                    margin: EdgeInsets.all(10),
+                                    content: Text(
+                                      'Fill all colums',
+                                    )));
                           }
                         }),
                     InkWell(

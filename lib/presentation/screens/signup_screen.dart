@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/flutter_signin_button.dart';
 import 'package:taxi_app_user/presentation/screens/profile_setting_screen.dart';
 import 'package:taxi_app_user/service/sharedpref.dart';
 import 'package:taxi_app_user/utils/app_text_styles.dart';
@@ -16,7 +15,7 @@ class SingupScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
-        child: Column(
+        child: ListView(
           children: [
             Flexible(
                 child: SizedBox(
@@ -50,38 +49,38 @@ class SingupScreen extends StatelessWidget {
                     CustomTextfield(
                         controller: passwordController,
                         hintText: "Enter Your Password"),
-                    Container(
-                      padding: const EdgeInsets.all(16.0),
-                      child: const Row(
-                        children: [
-                          Expanded(
-                            child: Divider(
-                              thickness: 1,
-                              color: Color.fromARGB(255, 183, 183, 183),
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(horizontal: 8.0),
-                            child: Text(
-                              "OR",
-                              style: CustomTextStyle.buttonTextStyle,
-                            ),
-                          ),
-                          Expanded(
-                            child: Divider(
-                              thickness: 1,
-                              color: Color.fromARGB(255, 189, 189, 189),
-                            ),
-                          ),
-                        ],
-                      ),
-                    ),
-                    SignInButton(
-                      elevation: 0,
-                      Buttons.Google,
-                      padding: const EdgeInsets.only(left: 20),
-                      onPressed: () {},
-                    ),
+                    // Container(
+                    //   padding: const EdgeInsets.all(16.0),
+                    //   child: const Row(
+                    //     children: [
+                    //       Expanded(
+                    //         child: Divider(
+                    //           thickness: 1,
+                    //           color: Color.fromARGB(255, 183, 183, 183),
+                    //         ),
+                    //       ),
+                    //       Padding(
+                    //         padding: EdgeInsets.symmetric(horizontal: 8.0),
+                    //         child: Text(
+                    //           "OR",
+                    //           style: CustomTextStyle.buttonTextStyle,
+                    //         ),
+                    //       ),
+                    //       Expanded(
+                    //         child: Divider(
+                    //           thickness: 1,
+                    //           color: Color.fromARGB(255, 189, 189, 189),
+                    //         ),
+                    //       ),
+                    //     ],
+                    //   ),
+                    // ),
+                    // SignInButton(
+                    //   elevation: 0,
+                    //   Buttons.Google,
+                    //   padding: const EdgeInsets.only(left: 20),
+                    //   onPressed: () {},
+                    // ),
                   ],
                 ),
               ),
@@ -107,13 +106,28 @@ class SingupScreen extends StatelessWidget {
                                 .pushReplacement(MaterialPageRoute(
                               builder: (context) => ProfileIndroScreen(),
                             ));
+                          } else {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    backgroundColor:
+                                        Color.fromARGB(255, 255, 87, 58),
+                                    behavior: SnackBarBehavior.floating,
+                                    margin: EdgeInsets.all(10),
+                                    content: Text(
+                                      'Fill all colums',
+                                    )));
                           }
                           // Sharedpref.instence.signout();
                         }),
-                    richText(
-                        context: context,
-                        firstTxt: "Dont have an Account?  ",
-                        secondTxt: "Sign-up")
+                    InkWell(
+                      onTap: () {
+                        Navigator.of(context).pop();
+                      },
+                      child: richText(
+                          context: context,
+                          firstTxt: "Dont have an Account?  ",
+                          secondTxt: "Sign-up"),
+                    )
                   ],
                 ),
               ),

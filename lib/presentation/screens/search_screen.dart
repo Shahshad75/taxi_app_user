@@ -1,11 +1,16 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taxi_app_user/presentation/bloc/home_bloc/home_bloc.dart';
 import 'package:taxi_app_user/presentation/bloc/map_box_bloc/mapbox_bloc.dart';
+import 'package:taxi_app_user/presentation/widget/common/custom_bottamsheet.dart';
 import 'package:taxi_app_user/presentation/widget/search_widgets.dart/search_bar.dart';
 
 class SearchScreen extends StatelessWidget {
-  const SearchScreen({super.key});
-
+  SearchScreen({super.key});
+  double latitude = 0;
+  double longitude = 0;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -20,6 +25,7 @@ class SearchScreen extends StatelessWidget {
         child: Column(
           children: [
             LocationPickerBar(),
+        
             Expanded(
               child: SizedBox(
                 child: Padding(
@@ -36,15 +42,23 @@ class SearchScreen extends StatelessWidget {
                           itemCount: placeses.length,
                           itemBuilder: (context, index) {
                             var placename = placeses[index]['placeName'];
+                            latitude = placeses[index]['latitude'];
+                            longitude = placeses[index]['longitude'];
+
                             return ListTile(
                               onTap: () {
                                 if (state is EndLocationState) {
                                   context.read<MapboxBloc>().add(
-                                      EndLocationEvent(location: placename));
+                                      EndLocationEvent(
+                                          location: placename,
+                                          lant: latitude,
+                                          long: longitude));
                                 } else if (state is PickupLocationState) {
                                   context.read<MapboxBloc>().add(
                                       LocationSelectedEvent(
-                                          location: placename));
+                                          location: placename,
+                                          lant: latitude,
+                                          long: longitude));
                                 }
                               },
                               title: Text(

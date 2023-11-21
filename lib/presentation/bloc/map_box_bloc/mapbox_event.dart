@@ -9,8 +9,15 @@ final class SearchPickEevent extends MapboxEvent {
 
 final class LocationSelectedEvent extends MapboxEvent {
   String location;
-  LocationSelectedEvent({required this.location});
+  double lant;
+  double long;
+  LocationSelectedEvent({
+    required this.lant,
+    required this.long,
+    required this.location,
+  });
 }
+
 final class SearchEndEevent extends MapboxEvent {
   String value;
   SearchEndEevent({required this.value});
@@ -18,5 +25,11 @@ final class SearchEndEevent extends MapboxEvent {
 
 final class EndLocationEvent extends MapboxEvent {
   String location;
-  EndLocationEvent({required this.location});
+  double lant;
+  double long;
+  EndLocationEvent({
+    required this.lant,
+    required this.long,
+    required this.location,
+  });
 }

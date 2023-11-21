@@ -1,6 +1,8 @@
 import 'dart:async';
 
 import 'package:bloc/bloc.dart';
+import 'package:taxi_app_user/service/drivers_model.dart';
+import 'package:taxi_app_user/service/repository.dart';
 
 part 'home_event.dart';
 part 'home_state.dart';
@@ -14,12 +16,14 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
   }
 
   FutureOr<void> vehicleTypeSetEvnet(
-      VehicleTypeSetEvnet event, Emitter<HomeState> emit) {
-    emit(VehicleTypeSetState());
+      VehicleTypeSetEvnet event, Emitter<HomeState> emit) async {
+    List drivers = await Repo.booking(event.piclat,event.piclong,event.endlat,event.endlong);
+    
+    emit(VehicleTypeSetState(drivers: drivers));
   }
 
   FutureOr<void> selectCarEvent(SelectCarEvent event, Emitter<HomeState> emit) {
-    emit(SelectCarState());
+    emit(SelectCarState(driver:event.driver));
   }
 
   FutureOr<void> confirmDriveEvent(

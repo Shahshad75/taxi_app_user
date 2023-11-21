@@ -29,7 +29,7 @@ class _CustomBottamSheetState extends State<CustomBottamSheet> {
             _currentIndex = index;
           });
         },
-        children:const [
+        children: [
           HomeScreen(),
           BookingScreen(),
           PaymentScreen(),

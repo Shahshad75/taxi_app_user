@@ -31,7 +31,7 @@ class HomeAppbar extends StatelessWidget {
                         //   builder: (context) => BottomSheetContent(),
                         // );
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) => const SearchScreen(),
+                          builder: (context) =>  SearchScreen(),
                         ));
                       },
                       icon: const Icon(

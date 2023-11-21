@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
 import 'package:taxi_app_user/presentation/bloc/home_bloc/home_bloc.dart';
 import 'package:taxi_app_user/presentation/bloc/map_box_bloc/mapbox_bloc.dart';
 import 'package:taxi_app_user/presentation/bloc/profile_bloc/profile_bloc.dart';
