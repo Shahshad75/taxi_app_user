@@ -1,16 +1,15 @@
 // ignore_for_file: library_private_types_in_public_api
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:salomon_bottom_bar/salomon_bottom_bar.dart';
-import 'package:taxi_app_user/presentation/screens/booking_screen.dart';
+import 'package:taxi_app_user/presentation/screens/booking_screen/booking_screen.dart';
 import 'package:taxi_app_user/presentation/screens/home_screen.dart';
-import 'package:taxi_app_user/presentation/screens/payment_screen.dart';
 import 'package:taxi_app_user/presentation/screens/profile_screen.dart';
+import 'package:taxi_app_user/service/user.dart';
 
 class CustomBottamSheet extends StatefulWidget {
-  const CustomBottamSheet({super.key});
-
+  const CustomBottamSheet({super.key, this.user});
+  final User? user;
   @override
   _CustomBottamSheetState createState() => _CustomBottamSheetState();
 }
@@ -23,6 +22,7 @@ class _CustomBottamSheetState extends State<CustomBottamSheet> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: PageView(
+        physics: const NeverScrollableScrollPhysics(),
         controller: _pageController,
         onPageChanged: (index) {
           setState(() {
@@ -30,10 +30,11 @@ class _CustomBottamSheetState extends State<CustomBottamSheet> {
           });
         },
         children: [
-          HomeScreen(),
-          BookingScreen(),
-          PaymentScreen(),
-          ProfileScreen()
+          const HomeScreen(),
+          const BookingScreen(),
+          ProfileScreen(
+            user: widget.user,
+          )
         ],
       ),
       bottomNavigationBar: SalomonBottomBar(
@@ -58,7 +59,7 @@ class _CustomBottamSheetState extends State<CustomBottamSheet> {
                 "Home",
                 style: TextStyle(fontFamily: 'Urbanist'),
               ),
-              selectedColor: Color.fromARGB(255, 240, 187, 30)),
+              selectedColor: const Color.fromARGB(255, 240, 187, 30)),
           SalomonBottomBarItem(
             icon: const Icon(
               CupertinoIcons.collections,
@@ -69,17 +70,6 @@ class _CustomBottamSheetState extends State<CustomBottamSheet> {
               style: TextStyle(fontFamily: 'Urbanist'),
             ),
             selectedColor: Colors.green,
-          ),
-          SalomonBottomBarItem(
-            icon: const Icon(
-              CupertinoIcons.creditcard,
-              color: Colors.grey,
-            ),
-            title: const Text(
-              "Payments",
-              style: TextStyle(fontFamily: 'Urbanist'),
-            ),
-            selectedColor: Colors.orange,
           ),
           SalomonBottomBarItem(
             icon: const Icon(

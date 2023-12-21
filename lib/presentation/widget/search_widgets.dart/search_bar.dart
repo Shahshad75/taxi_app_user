@@ -1,3 +1,5 @@
+// ignore_for_file: must_be_immutable
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:taxi_app_user/presentation/bloc/home_bloc/home_bloc.dart';
@@ -101,16 +103,21 @@ class LocationPickerBar extends StatelessWidget {
           ),
           ElevatedButton(
               onPressed: () {
-                Navigator.of(context).pop();
-                context.read<HomeBloc>().add(VehicleTypeSetEvnet(
-                    piclat: startlat,
-                    piclong: startlong,
-                    endlat: endlat,
-                    endlong: endlong));
-                showModalBottomSheet(
-                  context: context,
-                  builder: (BuildContext context) => BottomSheetContent(),
-                );
+                if (picupLocation.text.isNotEmpty &&
+                    endLoaction.text.isNotEmpty) {
+                  Navigator.of(context).pop();
+                  context.read<HomeBloc>().add(VehicleTypeSetEvnet(
+                      piclat: startlat,
+                      piclong: startlong,
+                      endlat: endlat,
+                      endlong: endlong));
+                  showModalBottomSheet(
+                    context: context,
+                    builder: (BuildContext context) => BottomSheetContent(
+                        dropOffPlaceName: endLoaction.text.trim(),
+                        pickUpPlaceName: picupLocation.text.trim()),
+                  );
+                } else {}
               },
               child: const Text('Confirm'))
         ],

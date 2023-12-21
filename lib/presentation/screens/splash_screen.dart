@@ -41,8 +41,10 @@ class _SplashScreenState extends State<SplashScreen> {
       final data =
           await Repo.userSignin(userDetail['email'], userDetail['password']);
       if (data != null) {
-        Navigator.of(context).pushReplacement(
-            MaterialPageRoute(builder: (context) => const CustomBottamSheet()));
+        Navigator.of(context).pushReplacement(MaterialPageRoute(
+            builder: (context) => CustomBottamSheet(
+                  user: data,
+                )));
       } else {
         Navigator.of(context).pushReplacement(
             MaterialPageRoute(builder: (context) => LoginScreen()));

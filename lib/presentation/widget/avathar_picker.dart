@@ -9,7 +9,7 @@ class ProfileAvathar extends StatelessWidget {
       padding: const EdgeInsets.only(bottom: 15),
       child: SizedBox(
         width: double.maxFinite,
-        height: MediaQuery.sizeOf(context).height * .25,
+        height: MediaQuery.sizeOf(context).height * .15,
         child: Center(
           child: Stack(
             children: [
@@ -26,14 +26,16 @@ class ProfileAvathar extends StatelessWidget {
                     ],
                   ),
                   child: const CircleAvatar(
-                    radius: 80,
-                    backgroundImage: AssetImage('asset/image/unknown.png'),
+                    radius: 70,
+                    backgroundImage: AssetImage(
+                      'asset/image/unknown.png',
+                    ),
                   ),
                 ),
               ),
               Positioned(
-                bottom: 10,
-                right: 10,
+                bottom: 5,
+                right: 5,
                 child: Container(
                   height: 40,
                   width: 40,

@@ -16,8 +16,12 @@ class MapBoxHelper {
     final String endpoint =
         'https://api.mapbox.com/geocoding/v5/mapbox.places/$query.json';
 
-    final response =
-        await http.get(Uri.parse('$endpoint?access_token=$apiKey'));
+    // final response =
+    //     await http.get(Uri.parse('$endpoint?access_token=$apiKey'));
+    final response = await http.get(
+      Uri.parse(
+          '$endpoint?access_token=$apiKey&country=IN'), // Add '&country=IN' for India
+    );
 
     if (response.statusCode == 200) {
       final data = json.decode(response.body);

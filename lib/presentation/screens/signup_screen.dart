@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_app_user/presentation/screens/profile_setting_screen.dart';
+import 'package:taxi_app_user/presentation/widget/common/custom_snackbar.dart';
+import 'package:taxi_app_user/presentation/widget/common/validation.dart';
 import 'package:taxi_app_user/service/sharedpref.dart';
 import 'package:taxi_app_user/utils/app_text_styles.dart';
-
 import '../widget/common/button.dart';
 import '../widget/common/textfield.dart';
 import '../widget/rich_text.dart';
@@ -11,80 +12,54 @@ class SingupScreen extends StatelessWidget {
   SingupScreen({super.key});
   final emailController = TextEditingController();
   final passwordController = TextEditingController();
+  final GlobalKey<FormState> formKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: SafeArea(
         child: ListView(
           children: [
-            Flexible(
-                child: SizedBox(
+            SizedBox(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Container(
-                      width: 250,
-                      height: 300,
-                      decoration: const BoxDecoration(
-                          image: DecorationImage(
-                              image: AssetImage('asset/image/signup.png'))),
-                    ),
-                    const Row(
-                      children: [
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              vertical: 20, horizontal: 10),
-                          child: Text(
-                            "Create your\nAccount",
-                            style: CustomTextStyle.ultraBoldTextstyle,
+                child: Form(
+                  key: formKey,
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        width: 250,
+                        height: 300,
+                        decoration: const BoxDecoration(
+                            image: DecorationImage(
+                                image: AssetImage('asset/image/signup.png'))),
+                      ),
+                      const Row(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.symmetric(
+                                vertical: 20, horizontal: 10),
+                            child: Text(
+                              "Create your\nAccount",
+                              style: CustomTextStyle.ultraBoldTextstyle,
+                            ),
                           ),
-                        ),
-                      ],
-                    ),
-                    CustomTextfield(
-                        controller: emailController,
-                        hintText: "Enter Your Email"),
-                    CustomTextfield(
-                        controller: passwordController,
-                        hintText: "Enter Your Password"),
-                    // Container(
-                    //   padding: const EdgeInsets.all(16.0),
-                    //   child: const Row(
-                    //     children: [
-                    //       Expanded(
-                    //         child: Divider(
-                    //           thickness: 1,
-                    //           color: Color.fromARGB(255, 183, 183, 183),
-                    //         ),
-                    //       ),
-                    //       Padding(
-                    //         padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    //         child: Text(
-                    //           "OR",
-                    //           style: CustomTextStyle.buttonTextStyle,
-                    //         ),
-                    //       ),
-                    //       Expanded(
-                    //         child: Divider(
-                    //           thickness: 1,
-                    //           color: Color.fromARGB(255, 189, 189, 189),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    // SignInButton(
-                    //   elevation: 0,
-                    //   Buttons.Google,
-                    //   padding: const EdgeInsets.only(left: 20),
-                    //   onPressed: () {},
-                    // ),
-                  ],
+                        ],
+                      ),
+                      CustomTextfield(
+                          validation: (value) => Validator.validateEmail(value),
+                          controller: emailController,
+                          hintText: "Enter Your Email"),
+                      CustomTextfield(
+                          validation: (value) =>
+                              Validator.validatePassword(value),
+                          controller: passwordController,
+                          hintText: "Enter Your Password"),
+                    ],
+                  ),
                 ),
               ),
-            )),
+            ),
             SizedBox(
               width: double.infinity,
               height: 150,
@@ -96,8 +71,7 @@ class SingupScreen extends StatelessWidget {
                     CustomButton(
                         text: "Sign up",
                         onTap: () async {
-                          if (emailController.text.isNotEmpty ||
-                              passwordController.text.isNotEmpty) {
+                          if (formKey.currentState!.validate()) {
                             await Sharedpref.instence.setAuthDetaials(
                                 emailController.text.trim(),
                                 passwordController.text.trim());
@@ -106,18 +80,7 @@ class SingupScreen extends StatelessWidget {
                                 .pushReplacement(MaterialPageRoute(
                               builder: (context) => ProfileIndroScreen(),
                             ));
-                          } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor:
-                                        Color.fromARGB(255, 255, 87, 58),
-                                    behavior: SnackBarBehavior.floating,
-                                    margin: EdgeInsets.all(10),
-                                    content: Text(
-                                      'Fill all colums',
-                                    )));
                           }
-                          // Sharedpref.instence.signout();
                         }),
                     InkWell(
                       onTap: () {

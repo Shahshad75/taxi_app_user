@@ -1,14 +1,14 @@
 // ignore_for_file: use_build_context_synchronously
 
 import 'package:flutter/material.dart';
-import 'package:flutter_signin_button/button_list.dart';
-import 'package:flutter_signin_button/button_view.dart';
 import 'package:taxi_app_user/presentation/screens/bottam_sheet.dart';
 import 'package:taxi_app_user/presentation/screens/signup_screen.dart';
+import 'package:taxi_app_user/presentation/widget/common/custom_snackbar.dart';
 import 'package:taxi_app_user/presentation/widget/rich_text.dart';
+import 'package:taxi_app_user/service/firebase.dart';
 import 'package:taxi_app_user/service/repository.dart';
+import 'package:taxi_app_user/service/sharedpref.dart';
 import 'package:taxi_app_user/service/user.dart';
-
 import '../../utils/app_text_styles.dart';
 import '../widget/common/button.dart';
 import '../widget/common/textfield.dart';
@@ -23,8 +23,7 @@ class LoginScreen extends StatelessWidget {
       body: SafeArea(
         child: ListView(
           children: [
-            Expanded(
-                child: SizedBox(
+            SizedBox(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 20),
                 child: Column(
@@ -49,44 +48,17 @@ class LoginScreen extends StatelessWidget {
                         ),
                       ],
                     ),
-                    const CustomTextfield(hintText: "Enter Your Email"),
-                    const CustomTextfield(hintText: "Enter Your Password"),
-                    // Container(
-                    //   padding: const EdgeInsets.all(16.0),
-                    //   child: const Row(
-                    //     children: [
-                    //       Expanded(
-                    //         child: Divider(
-                    //           thickness: 1,
-                    //           color: Color.fromARGB(255, 183, 183, 183),
-                    //         ),
-                    //       ),
-                    //       Padding(
-                    //         padding: EdgeInsets.symmetric(horizontal: 8.0),
-                    //         child: Text(
-                    //           "OR",
-                    //           style: CustomTextStyle.buttonTextStyle,
-                    //         ),
-                    //       ),
-                    //       Expanded(
-                    //         child: Divider(
-                    //           thickness: 1,
-                    //           color: Color.fromARGB(255, 189, 189, 189),
-                    //         ),
-                    //       ),
-                    //     ],
-                    //   ),
-                    // ),
-                    // SignInButton(
-                    //   elevation: 0,
-                    //   Buttons.Google,
-                    //   padding: const EdgeInsets.only(left: 20),
-                    //   onPressed: () {},
-                    // ),
+                    CustomTextfield(
+                        hintText: "Enter Your Email",
+                        controller: emailController),
+                    CustomTextfield(
+                      hintText: "Enter Your Password",
+                      controller: passwordController,
+                    ),
                   ],
                 ),
               ),
-            )),
+            ),
             SizedBox(
               width: double.infinity,
               height: 150,
@@ -96,7 +68,7 @@ class LoginScreen extends StatelessWidget {
                   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                   children: [
                     CustomButton(
-                        text: "Sign up",
+                        text: "Sign In",
                         onTap: () async {
                           if (emailController.text.isNotEmpty &&
                               passwordController.text.isNotEmpty) {
@@ -104,20 +76,23 @@ class LoginScreen extends StatelessWidget {
                                 emailController.text.trim(),
                                 passwordController.text.trim());
                             if (user != null) {
+                              await Sharedpref.instence.addUserId(user.id!);
+                              await Sharedpref.instence.setAuthDetaials(
+                                  emailController.text.trim(),
+                                  passwordController.text.trim());
+                              FirebaseHelper.getFirebaseMessagingToken();
                               Navigator.of(context).push(MaterialPageRoute(
-                                builder: (context) => const CustomBottamSheet(),
+                                builder: (context) =>
+                                    CustomBottamSheet(user: user),
                               ));
+                            } else {
+                              Snacbar.authSnack(
+                                  "Failed to find user, Check your password and username",
+                                  context);
                             }
                           } else {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    backgroundColor:
-                                        Color.fromARGB(255, 255, 87, 58),
-                                    behavior: SnackBarBehavior.floating,
-                                    margin: EdgeInsets.all(10),
-                                    content: Text(
-                                      'Fill all colums',
-                                    )));
+                            Snacbar.authSnack("Fill all fields", context);
+                            // const CoustomSnackbar(message: 'fill all colums');
                           }
                         }),
                     InkWell(

@@ -6,6 +6,7 @@ import 'package:taxi_app_user/presentation/widget/common/button.dart';
 import 'package:taxi_app_user/presentation/widget/common/date_picker.dart';
 import 'package:taxi_app_user/presentation/widget/common/number_field.dart';
 import 'package:taxi_app_user/presentation/widget/common/textfield.dart';
+import 'package:taxi_app_user/service/firebase.dart';
 import 'package:taxi_app_user/service/repository.dart';
 import 'package:taxi_app_user/service/sharedpref.dart';
 import 'package:taxi_app_user/service/user.dart';
@@ -59,11 +60,11 @@ class ProfileIndroScreen extends StatelessWidget {
                 );
               },
             ),
-            const CustomTextfield(
-              hintText: 'shahshad@gmail.com',
-              keyboardType: TextInputType.emailAddress,
-            ),
-            const NumberField(),
+            // const CustomTextfield(
+            //   hintText: 'shahshad@gmail.com',
+            //   keyboardType: TextInputType.emailAddress,
+            // ),
+            NumberField(controller: phonNumberController),
             BlocBuilder<ProfileBloc, ProfileState>(
               builder: (context, state) {
                 if (state is GenderPickState) {
@@ -104,8 +105,7 @@ class ProfileIndroScreen extends StatelessWidget {
                   if (fullNamgeController.text.isNotEmpty &&
                       nickNameController.text.isNotEmpty &&
                       datebirthController.text.isNotEmpty) {
-                    Map? userAuth = await Sharedpref.instence.getAuthDetails();
-                    print(userAuth);
+                    Map? userAuth = Sharedpref.instence.getAuthDetails();
                     User user = User(
                         fullname: fullNamgeController.text,
                         birthdate: datebirthController.text,
@@ -116,9 +116,11 @@ class ProfileIndroScreen extends StatelessWidget {
                         image: 'hi babz');
                     int? id = await Repo.userSignUp(user);
                     if (id != null) {
+                      await Sharedpref.instence.addUserId(id);
                       Navigator.of(context).pushReplacement(MaterialPageRoute(
                         builder: (context) => const CustomBottamSheet(),
                       ));
+                      await FirebaseHelper.getFirebaseMessagingToken();
                     }
                   } else {
                     ScaffoldMessenger.of(context).showSnackBar(const SnackBar(

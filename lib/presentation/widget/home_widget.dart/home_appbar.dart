@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:taxi_app_user/presentation/screens/coupon_screen.dart';
 import 'package:taxi_app_user/presentation/screens/search_screen.dart';
-import 'package:taxi_app_user/service/mapbox.dart';
 
 class HomeAppbar extends StatelessWidget {
   const HomeAppbar({super.key});
@@ -31,7 +31,7 @@ class HomeAppbar extends StatelessWidget {
                         //   builder: (context) => BottomSheetContent(),
                         // );
                         Navigator.of(context).push(MaterialPageRoute(
-                          builder: (context) =>  SearchScreen(),
+                          builder: (context) => SearchScreen(),
                         ));
                       },
                       icon: const Icon(
@@ -50,7 +50,7 @@ class HomeAppbar extends StatelessWidget {
                       backgroundColor: const Color.fromARGB(255, 247, 208, 92),
                       child: IconButton(
                         onPressed: () async {
-                          await MapBoxHelper.getDirection();
+                          // await MapBoxHelper.getDirection();
                         },
                         icon: const Icon(
                           CupertinoIcons.bell,
@@ -60,23 +60,27 @@ class HomeAppbar extends StatelessWidget {
                     ),
                   ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.only(right: 20),
-                  child: CircleAvatar(
-                    radius: 23,
-                    backgroundColor: const Color.fromARGB(255, 213, 178, 72),
-                    child: CircleAvatar(
-                      backgroundColor: const Color.fromARGB(255, 247, 208, 92),
-                      child: IconButton(
-                        onPressed: () {},
-                        icon: const Icon(
-                          CupertinoIcons.tag,
-                          color: Color.fromARGB(255, 63, 63, 63),
-                        ),
-                      ),
-                    ),
-                  ),
-                )
+                // Padding(
+                //   padding: const EdgeInsets.only(right: 20),
+                //   child: CircleAvatar(
+                //     radius: 23,
+                //     backgroundColor: const Color.fromARGB(255, 213, 178, 72),
+                //     child: CircleAvatar(
+                //       backgroundColor: const Color.fromARGB(255, 247, 208, 92),
+                //       child: IconButton(
+                //         onPressed: () {
+                //           Navigator.of(context).push(MaterialPageRoute(
+                //             builder: (context) => CouponScreen(),
+                //           ));
+                //         },
+                //         icon: const Icon(
+                //           CupertinoIcons.tag,
+                //           color: Color.fromARGB(255, 63, 63, 63),
+                //         ),
+                //       ),
+                //     ),
+                //   ),
+                // )
               ],
             ),
           ),
