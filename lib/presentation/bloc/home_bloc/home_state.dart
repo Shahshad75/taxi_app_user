@@ -57,4 +57,8 @@ final class CompleteRideState extends HomeState {
   CompleteRideState({required this.completes});
 }
 
+
+final class EmptyCompleteRideState extends HomeState {}
+
+
 final class NormalMapState extends HomeState {}

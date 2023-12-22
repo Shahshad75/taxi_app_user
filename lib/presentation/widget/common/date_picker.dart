@@ -1,4 +1,6 @@
 
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -20,7 +22,7 @@ class DatePickerFun {
       context.read<ProfileBloc>().add(
           DatePickedEvent(pickedDate: DateFormat.yMd().format(selectedDate)));
     } else {
-      print('Selected null');
+    
     }
   }
 

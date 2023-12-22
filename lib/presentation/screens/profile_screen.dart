@@ -1,5 +1,9 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:taxi_app_user/presentation/screens/login_screen.dart';
+import 'package:taxi_app_user/presentation/screens/privacy_policy_screen.dart';
+import 'package:taxi_app_user/presentation/screens/terms_condition_screen.dart';
 import 'package:taxi_app_user/service/sharedpref.dart';
 import 'package:taxi_app_user/service/user.dart';
 import 'package:taxi_app_user/utils/app_text_styles.dart';
@@ -37,31 +41,38 @@ class ProfileScreen extends StatelessWidget {
               ],
             ),
           ),
-         
-          const ListTile(
-            leading: CircleAvatar(
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const PrivacyPolicy()));
+            },
+            leading: const CircleAvatar(
               backgroundColor: Colors.white,
               child: Icon(Icons.lock),
             ),
-            title: Text(
+            title: const Text(
               "Privacy policy",
               style: CustomTextStyle.buttonTextStyle,
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.arrow_forward_ios_sharp,
               size: 18,
             ),
           ),
-          const ListTile(
-            leading: CircleAvatar(
+          ListTile(
+            onTap: () {
+              Navigator.of(context).push(MaterialPageRoute(
+                  builder: (context) => const TermsConditionScreen()));
+            },
+            leading: const CircleAvatar(
               backgroundColor: Colors.white,
               child: Icon(Icons.info_outline),
             ),
-            title: Text(
-              "Help Center",
+            title: const Text(
+              "Terms & Conditions",
               style: CustomTextStyle.buttonTextStyle,
             ),
-            trailing: Icon(
+            trailing: const Icon(
               Icons.arrow_forward_ios_sharp,
               size: 18,
             ),

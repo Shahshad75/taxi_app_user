@@ -66,11 +66,9 @@ class Repo {
 
         return driversInfoList;
       } else {
-        print("Error: 'success' key not found in the response");
         return [];
       }
     } else {
-      print("Error: ${response.statusCode}");
       return [];
     }
   }
@@ -81,7 +79,6 @@ class Repo {
     var response = await http.get(url);
     if (response.statusCode == 200) {
       final token = jsonDecode(response.body);
-      print(token);
       return token['success'];
     }
     return null;
@@ -136,10 +133,13 @@ class Repo {
     final response = await http.get(url);
     if (response.statusCode == 200) {
       final result = jsonDecode(response.body);
-      List<dynamic> payments = result["payments"];
-      final List<Payment> paymentsList =
-          payments.map((e) => Payment.fromJson(e)).toList();
-      return paymentsList;
+      if (result["payments"] != null) {
+        List<dynamic> payments = result["payments"];
+        final List<Payment> paymentsList =
+            payments.map((e) => Payment.fromJson(e)).toList();
+        return paymentsList;
+      }
+      return null;
     }
     return null;
   }

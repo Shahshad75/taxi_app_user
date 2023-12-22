@@ -105,7 +105,9 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         await Repo.paymentDetails(Sharedpref.instence.getId());
     if (payments != null) {
       emit(CompleteRideState(completes: payments));
-    } else {}
+    } else {
+      emit(EmptyCompleteRideState());
+    }
   }
 
   FutureOr<void> normalMapEvent(

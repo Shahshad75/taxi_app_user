@@ -34,6 +34,10 @@ class _CompleteTabState extends State<CompleteTab> {
                       buttonColor: Colors.green,
                       buttonText: "Complete");
                 });
+          } else if (state is EmptyCompleteRideState) {
+            return const Center(
+              child: Text("No Rides,Take a new Ride"),
+            );
           }
           return const Center(
               child: Text("No datas, book ride right know and enjoy"));

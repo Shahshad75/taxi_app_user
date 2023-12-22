@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:taxi_app_user/presentation/screens/coupon_screen.dart';
 import 'package:taxi_app_user/presentation/screens/search_screen.dart';
 
 class HomeAppbar extends StatelessWidget {

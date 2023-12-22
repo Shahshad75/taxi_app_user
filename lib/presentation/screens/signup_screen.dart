@@ -1,6 +1,7 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'package:flutter/material.dart';
 import 'package:taxi_app_user/presentation/screens/profile_setting_screen.dart';
-import 'package:taxi_app_user/presentation/widget/common/custom_snackbar.dart';
 import 'package:taxi_app_user/presentation/widget/common/validation.dart';
 import 'package:taxi_app_user/service/sharedpref.dart';
 import 'package:taxi_app_user/utils/app_text_styles.dart';

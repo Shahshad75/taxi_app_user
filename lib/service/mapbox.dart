@@ -72,11 +72,4 @@ class MapBoxHelper {
     return null;
   }
 
-  static Future<String?> getDirection() async {
-    var url =
-        'https://api.mapbox.com/directions/v5/mapbox/driving/75.8932343%2C11.1518781%3B75.93474649999999%2C11.3211795?alternatives=false&annotations=distance%2Cduration%2Cspeed&geometries=geojson&language=en&overview=full&steps=true&access_token=pk.eyJ1Ijoic2hhaHNoYWQ3NTU4IiwiYSI6ImNsb3M1cjA5MjEwaXYya2s0czBxYWJpeWgifQ.EHLmEoHUiBZdpMnGsVwAow';
-    final uri = Uri.parse(url);
-    var response = await http.get(uri);
-    print(response.body);
-  }
 }

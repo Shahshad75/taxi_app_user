@@ -78,12 +78,10 @@ class FirebaseHelper {
     };
     const url = 'https://fcm.googleapis.com/fcm/send';
 
-    final response =
-        await http.post(Uri.parse(url), body: jsonEncode(body), headers: {
+    await http.post(Uri.parse(url), body: jsonEncode(body), headers: {
       HttpHeaders.contentTypeHeader: "application/json",
       HttpHeaders.authorizationHeader:
           "key=AAAAOd8TloI:APA91bFR5DQqeZ4sK3pKmCDVG2gycpvL-0k3P37vFfc8dGGiBmTk6etbnucQJJZG2hfdYx_em93yVIcaJFeDWl2QxXYdJurwnE-YvIGmxp5K0Z7zbbYlmCdCsRpxdF0-Et5sHjkzhcjd",
     });
-    print(response.body);
   }
 }
