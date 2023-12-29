@@ -2,8 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taxi_app_user/presentation/bloc/map_box_bloc/mapbox_bloc.dart';
-import 'package:taxi_app_user/presentation/widget/search_widgets.dart/search_bar.dart';
+import 'package:taxi_app_user/widget/search_widgets.dart/search_bar.dart';
+
+import '../../bloc/map_box_bloc/mapbox_bloc.dart';
 
 class SearchScreen extends StatelessWidget {
   SearchScreen({super.key});

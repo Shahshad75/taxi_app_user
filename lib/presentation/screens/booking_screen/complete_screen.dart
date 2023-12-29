@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taxi_app_user/presentation/bloc/home_bloc/home_bloc.dart';
-import 'package:taxi_app_user/presentation/widget/common/driver_tile.dart';
+import 'package:intl/intl.dart';
+import 'package:taxi_app_user/widget/common/driver_tile.dart';
 import 'package:taxi_app_user/service/payment_model.dart';
+
+import '../../../bloc/home_bloc/home_bloc.dart';
 
 class CompleteTab extends StatefulWidget {
   const CompleteTab({super.key});
@@ -21,7 +23,7 @@ class _CompleteTabState extends State<CompleteTab> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color.fromARGB(255, 238, 238, 238),
+      backgroundColor: const Color.fromARGB(255, 238, 238, 238), 
       body: BlocBuilder<HomeBloc, HomeState>(
         builder: (context, state) {
           if (state is CompleteRideState) {
@@ -29,8 +31,13 @@ class _CompleteTabState extends State<CompleteTab> {
                 itemCount: state.completes.length,
                 itemBuilder: (context, indext) {
                   Payment? detail = state.completes[indext];
+                  DateTime parsedDate =
+                      DateFormat('dd/MM/yyyy').parse(detail!.date);
+                  String formattedDate =
+                      DateFormat('MMMM dd, yyyy').format(parsedDate);
                   return DriverTile(
-                      detail: detail!,
+                      date: formattedDate,
+                      detail: detail,
                       buttonColor: Colors.green,
                       buttonText: "Complete");
                 });

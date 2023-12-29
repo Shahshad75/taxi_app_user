@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_app_user/presentation/widget/coupon_widget.dart/cupon_copy_widget.dart';
+import 'package:taxi_app_user/widget/coupon_widget.dart/cupon_copy_widget.dart';
 
 class CustomPopupMessgae extends StatelessWidget {
   const CustomPopupMessgae({super.key});

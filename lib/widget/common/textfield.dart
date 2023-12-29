@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 
-import '../../../utils/app_text_styles.dart';
+import '../../utils/app_text_styles.dart';
 
 class CustomTextfield extends StatelessWidget {
   const CustomTextfield(
       {super.key,
       this.controller,
+      this.labelText,
       required this.hintText,
       this.validation,
       this.suffixIcon,
@@ -19,6 +20,7 @@ class CustomTextfield extends StatelessWidget {
   final FormFieldValidator? validation;
   final bool? readOnly;
   final void Function(String)? onChanged;
+  final String? labelText;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -30,6 +32,11 @@ class CustomTextfield extends StatelessWidget {
         validator: validation,
         controller: controller,
         decoration: InputDecoration(
+          labelStyle: const TextStyle(
+              fontFamily: "ubanist",
+              fontWeight: FontWeight.bold,
+              color: Color.fromARGB(255, 104, 104, 104)),
+          labelText: labelText,
           suffixIcon: suffixIcon,
           errorBorder: const OutlineInputBorder(
             borderSide: BorderSide(

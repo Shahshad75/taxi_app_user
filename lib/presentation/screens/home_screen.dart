@@ -3,10 +3,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:flutter_polyline_points/flutter_polyline_points.dart';
-import 'package:taxi_app_user/presentation/bloc/home_bloc/home_bloc.dart';
-import 'package:taxi_app_user/presentation/bloc/payment/payment_bloc.dart';
-import 'package:taxi_app_user/presentation/widget/home_widget.dart/home_appbar.dart';
+import 'package:taxi_app_user/bloc/home_bloc/home_bloc.dart';
+import 'package:taxi_app_user/widget/home_widget.dart/home_appbar.dart';
 import 'package:taxi_app_user/service/sharedpref.dart';
+
+import '../../bloc/payment/payment_bloc.dart';
 
 class HomeScreen extends StatefulWidget {
   const HomeScreen({Key? key}) : super(key: key);

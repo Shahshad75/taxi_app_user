@@ -5,10 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
 import 'package:taxi_app_user/models/available_drivers.dart';
-import 'package:taxi_app_user/presentation/bloc/home_bloc/home_bloc.dart';
-import 'package:taxi_app_user/presentation/widget/common/button.dart';
+import 'package:taxi_app_user/widget/common/button.dart';
 import 'package:taxi_app_user/utils/app_text_styles.dart';
 import 'package:url_launcher/url_launcher.dart';
+
+import '../../bloc/home_bloc/home_bloc.dart';
 
 class BottomSheetContent extends StatelessWidget {
   BottomSheetContent({super.key, this.pickUpPlaceName, this.dropOffPlaceName});

@@ -2,8 +2,9 @@
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:taxi_app_user/presentation/bloc/home_bloc/home_bloc.dart';
-import 'package:taxi_app_user/presentation/bloc/map_box_bloc/mapbox_bloc.dart';
+import 'package:taxi_app_user/service/location.dart';
+import '../../bloc/home_bloc/home_bloc.dart';
+import '../../bloc/map_box_bloc/mapbox_bloc.dart';
 import '../common/custom_bottamsheet.dart';
 import '../common/textfield.dart';
 
@@ -15,6 +16,7 @@ class LocationPickerBar extends StatelessWidget {
   double startlong = 0;
   double endlat = 0;
   double endlong = 0;
+
   @override
   Widget build(BuildContext context) {
     return Card(
@@ -66,6 +68,11 @@ class LocationPickerBar extends StatelessWidget {
                               startlong = state.longitude;
                             }
                             return CustomTextfield(
+                              suffixIcon: IconButton(
+                                  onPressed: () async {
+                                    await CurrentLocation.getCurrentLocation(context);
+                                  },
+                                  icon: const Icon(Icons.my_location_rounded)),
                               controller: picupLocation,
                               hintText: 'Pickup Location',
                               onChanged: (value) async {

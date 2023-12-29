@@ -1,8 +1,8 @@
 // ignore_for_file: must_be_immutable, prefer_const_constructors
 
 import 'package:flutter/material.dart';
-import 'package:taxi_app_user/presentation/widget/coupon_widget.dart/coupons_tile.dart';
-import 'package:taxi_app_user/presentation/widget/coupon_widget.dart/custom_pop_message.dart';
+import 'package:taxi_app_user/widget/coupon_widget.dart/coupons_tile.dart';
+import 'package:taxi_app_user/widget/coupon_widget.dart/custom_pop_message.dart';
 
 class CouponScreen extends StatelessWidget {
   CouponScreen({super.key});

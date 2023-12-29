@@ -57,8 +57,11 @@ final class CompleteRideState extends HomeState {
   CompleteRideState({required this.completes});
 }
 
-
 final class EmptyCompleteRideState extends HomeState {}
 
-
 final class NormalMapState extends HomeState {}
+
+final class SucessfullyPicimageEvent extends HomeState {
+  final String imagePath;
+  SucessfullyPicimageEvent({required this.imagePath});
+}

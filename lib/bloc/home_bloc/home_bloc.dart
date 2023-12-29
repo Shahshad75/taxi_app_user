@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:io';
 import 'package:bloc/bloc.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:taxi_app_user/models/available_drivers.dart';
@@ -24,6 +25,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<SearchDriverEvent>(searchDriverEvent);
     on<CompleteRideEvent>(completeRideEvent);
     on<NormalMapEvent>(normalMapEvent);
+    on<PicUserImgEvent>(picUserImgEvent);
   }
   LatLng? pickupLocation;
   LatLng? dropOfflocation;
@@ -115,5 +117,13 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     String? token = await Repo.confirmRide(driver.id);
     await FirebaseHelper.paymentGet("sucess", token!);
     emit(NormalMapState());
+  }
+
+  FutureOr<void> picUserImgEvent(
+      PicUserImgEvent event, Emitter<HomeState> emit) async {
+    String url = await FirebaseHelper.getImageUrl(File(event.imagePath));
+    if (url.isNotEmpty) {
+      emit(SucessfullyPicimageEvent(imagePath: url));
+    }
   }
 }

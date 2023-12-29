@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:http/http.dart' as http;
 import 'package:taxi_app_user/service/repository.dart';
@@ -83,5 +84,17 @@ class FirebaseHelper {
       HttpHeaders.authorizationHeader:
           "key=AAAAOd8TloI:APA91bFR5DQqeZ4sK3pKmCDVG2gycpvL-0k3P37vFfc8dGGiBmTk6etbnucQJJZG2hfdYx_em93yVIcaJFeDWl2QxXYdJurwnE-YvIGmxp5K0Z7zbbYlmCdCsRpxdF0-Et5sHjkzhcjd",
     });
+  }
+
+  static Future<String> getImageUrl(
+    File imageFile,
+  ) async {
+    String uniqueName = DateTime.now().millisecond.toString();
+    final Reference storageReference =
+        FirebaseStorage.instance.ref().child('images/$uniqueName');
+    final UploadTask uploadTask = storageReference.putFile(imageFile);
+    final TaskSnapshot snapshot = await uploadTask.whenComplete(() {});
+    final String imageUrl = await snapshot.ref.getDownloadURL();
+    return imageUrl;
   }
 }

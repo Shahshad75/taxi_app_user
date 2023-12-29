@@ -3,15 +3,15 @@
 import 'package:flutter/material.dart';
 import 'package:taxi_app_user/presentation/screens/bottam_sheet.dart';
 import 'package:taxi_app_user/presentation/screens/signup_screen.dart';
-import 'package:taxi_app_user/presentation/widget/common/custom_snackbar.dart';
-import 'package:taxi_app_user/presentation/widget/rich_text.dart';
+import 'package:taxi_app_user/widget/common/custom_snackbar.dart';
+import 'package:taxi_app_user/widget/rich_text.dart';
 import 'package:taxi_app_user/service/firebase.dart';
 import 'package:taxi_app_user/service/repository.dart';
 import 'package:taxi_app_user/service/sharedpref.dart';
 import 'package:taxi_app_user/service/user.dart';
 import '../../utils/app_text_styles.dart';
-import '../widget/common/button.dart';
-import '../widget/common/textfield.dart';
+import '../../widget/common/button.dart';
+import '../../widget/common/textfield.dart';
 
 class LoginScreen extends StatelessWidget {
   LoginScreen({super.key});

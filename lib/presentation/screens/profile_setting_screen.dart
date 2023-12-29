@@ -1,18 +1,20 @@
-// ignore_for_file: use_build_context_synchronously
+// ignore_for_file: use_build_context_synchronously, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:taxi_app_user/bloc/home_bloc/home_bloc.dart';
 import 'package:taxi_app_user/presentation/screens/bottam_sheet.dart';
-import 'package:taxi_app_user/presentation/widget/common/appbar.dart';
-import 'package:taxi_app_user/presentation/widget/common/button.dart';
-import 'package:taxi_app_user/presentation/widget/common/date_picker.dart';
-import 'package:taxi_app_user/presentation/widget/common/number_field.dart';
-import 'package:taxi_app_user/presentation/widget/common/textfield.dart';
+import 'package:taxi_app_user/widget/avathar_picker.dart';
+import 'package:taxi_app_user/widget/common/appbar.dart';
+import 'package:taxi_app_user/widget/common/button.dart';
+import 'package:taxi_app_user/widget/common/date_picker.dart';
+import 'package:taxi_app_user/widget/common/number_field.dart';
+import 'package:taxi_app_user/widget/common/textfield.dart';
 import 'package:taxi_app_user/service/firebase.dart';
 import 'package:taxi_app_user/service/repository.dart';
 import 'package:taxi_app_user/service/sharedpref.dart';
 import 'package:taxi_app_user/service/user.dart';
-import '../bloc/profile_bloc/profile_bloc.dart';
+import '../../bloc/profile_bloc/profile_bloc.dart';
 
 class ProfileIndroScreen extends StatelessWidget {
   ProfileIndroScreen({super.key});
@@ -24,6 +26,7 @@ class ProfileIndroScreen extends StatelessWidget {
   final DatePickerFun datePickerFun = DatePickerFun();
   final List<String> items = ['None', 'Male', 'Female'];
   final String selectGender = 'None';
+  String imageUrl = "";
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -34,6 +37,7 @@ class ProfileIndroScreen extends StatelessWidget {
         padding: const EdgeInsets.symmetric(horizontal: 25, vertical: 60),
         child: ListView(
           children: [
+            const ProfileAvathar(),
             CustomTextfield(
               hintText: 'Full name',
               controller: fullNamgeController,
@@ -62,10 +66,6 @@ class ProfileIndroScreen extends StatelessWidget {
                 );
               },
             ),
-            // const CustomTextfield(
-            //   hintText: 'shahshad@gmail.com',
-            //   keyboardType: TextInputType.emailAddress,
-            // ),
             NumberField(controller: phonNumberController),
             BlocBuilder<ProfileBloc, ProfileState>(
               builder: (context, state) {
@@ -101,38 +101,48 @@ class ProfileIndroScreen extends StatelessWidget {
             ),
             Padding(
               padding: const EdgeInsets.only(top: 20, left: 20, right: 20),
-              child: CustomButton(
-                text: "Continue",
-                onTap: () async {
-                  if (fullNamgeController.text.isNotEmpty &&
-                      nickNameController.text.isNotEmpty &&
-                      datebirthController.text.isNotEmpty) {
-                    Map? userAuth = Sharedpref.instence.getAuthDetails();
-                    User user = User(
-                        fullname: fullNamgeController.text,
-                        birthdate: datebirthController.text,
-                        email: userAuth!['email'],
-                        password: userAuth['password'],
-                        phonenumber: phonNumberController.text,
-                        gender: genderController.text,
-                        image: 'hi babz');
-                    int? id = await Repo.userSignUp(user);
-                    if (id != null) {
-                      await Sharedpref.instence.addUserId(id);
-                      Navigator.of(context).pushReplacement(MaterialPageRoute(
-                        builder: (context) => const CustomBottamSheet(),
-                      ));
-                      await FirebaseHelper.getFirebaseMessagingToken();
-                    }
-                  } else {
-                    ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                        backgroundColor: Color.fromARGB(255, 255, 87, 58),
-                        behavior: SnackBarBehavior.floating,
-                        margin: EdgeInsets.all(10),
-                        content: Text(
-                          'Fill all colums',
-                        )));
+              child: BlocBuilder<HomeBloc, HomeState>(
+                builder: (context, state) {
+                  if (state is SucessfullyPicimageEvent) {
+                    imageUrl = state.imagePath;
                   }
+                  return CustomButton(
+                    text: "Continue",
+                    onTap: () async {
+                      if (fullNamgeController.text.isNotEmpty &&
+                          nickNameController.text.isNotEmpty &&
+                          datebirthController.text.isNotEmpty) {
+                        Map? userAuth = Sharedpref.instence.getAuthDetails();
+                        User user = User(
+                            fullname: fullNamgeController.text,
+                            birthdate: datebirthController.text,
+                            email: userAuth!['email'],
+                            password: userAuth['password'],
+                            phonenumber: phonNumberController.text,
+                            gender: genderController.text,
+                            image: imageUrl);
+                        int? id = await Repo.userSignUp(user);
+                        if (id != null) {
+                          await Sharedpref.instence.addUserId(id);
+                          Navigator.of(context)
+                              .pushReplacement(MaterialPageRoute(
+                            builder: (context) => const CustomBottamSheet(),
+                          ));
+                          await FirebaseHelper.getFirebaseMessagingToken();
+                        }
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                            const SnackBar(
+                                backgroundColor:
+                                    Color.fromARGB(255, 255, 87, 58),
+                                behavior: SnackBarBehavior.floating,
+                                margin: EdgeInsets.all(10),
+                                content: Text(
+                                  'Fill all colums',
+                                )));
+                      }
+                    },
+                  );
                 },
               ),
             )

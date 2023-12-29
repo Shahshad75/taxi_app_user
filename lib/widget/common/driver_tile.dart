@@ -6,10 +6,11 @@ class DriverTile extends StatefulWidget {
       {super.key,
       required this.buttonColor,
       required this.buttonText,
-      required this.detail});
+      required this.detail,required this.date});
   final Color buttonColor;
   final String buttonText;
   final Payment detail;
+  final String date;
   @override
   State<DriverTile> createState() => _DriverTileState();
 }
@@ -60,7 +61,7 @@ class _DriverTileState extends State<DriverTile> {
                                 backgroundImage:
                                     NetworkImage(widget.detail.driverImage)),
                             subtitle: Text(
-                              widget.detail.date,
+                            widget.date,
                               style: const TextStyle(
                                 fontFamily: "urbanist",
                                 fontWeight: FontWeight.w500,

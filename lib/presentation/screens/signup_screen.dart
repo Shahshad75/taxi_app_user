@@ -2,12 +2,12 @@
 
 import 'package:flutter/material.dart';
 import 'package:taxi_app_user/presentation/screens/profile_setting_screen.dart';
-import 'package:taxi_app_user/presentation/widget/common/validation.dart';
+import 'package:taxi_app_user/widget/common/validation.dart';
 import 'package:taxi_app_user/service/sharedpref.dart';
 import 'package:taxi_app_user/utils/app_text_styles.dart';
-import '../widget/common/button.dart';
-import '../widget/common/textfield.dart';
-import '../widget/rich_text.dart';
+import '../../widget/common/button.dart';
+import '../../widget/common/textfield.dart';
+import '../../widget/rich_text.dart';
 
 class SingupScreen extends StatelessWidget {
   SingupScreen({super.key});

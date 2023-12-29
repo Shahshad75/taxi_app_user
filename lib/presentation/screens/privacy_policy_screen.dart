@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:taxi_app_user/presentation/widget/common/bullent_text.dart';
-import 'package:taxi_app_user/presentation/widget/common/headline.dart';
-import 'package:taxi_app_user/presentation/widget/common/subtitle.dart';
+import 'package:taxi_app_user/widget/common/bullent_text.dart';
+import 'package:taxi_app_user/widget/common/headline.dart';
+import 'package:taxi_app_user/widget/common/subtitle.dart';
 
 class PrivacyPolicy extends StatelessWidget {
   const PrivacyPolicy({super.key});

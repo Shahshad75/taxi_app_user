@@ -1,4 +1,10 @@
+// ignore_for_file: use_build_context_synchronously
+
+
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:image_picker/image_picker.dart';
+import 'package:taxi_app_user/bloc/home_bloc/home_bloc.dart';
 
 class ProfileAvathar extends StatelessWidget {
   const ProfileAvathar({super.key});
@@ -25,11 +31,21 @@ class ProfileAvathar extends StatelessWidget {
                       ),
                     ],
                   ),
-                  child: const CircleAvatar(
-                    radius: 70,
-                    backgroundImage: AssetImage(
-                      'asset/image/unknown.png',
-                    ),
+                  child: BlocBuilder<HomeBloc, HomeState>(
+                    builder: (context, state) {
+                      if (state is SucessfullyPicimageEvent) {
+                        return CircleAvatar(
+                          radius: 70,
+                          backgroundImage: NetworkImage(state.imagePath),
+                        );
+                      }
+                      return const CircleAvatar(
+                        radius: 70,
+                        backgroundImage: AssetImage(
+                          'asset/image/unknown.png',
+                        ),
+                      );
+                    },
                   ),
                 ),
               ),
@@ -51,7 +67,15 @@ class ProfileAvathar extends StatelessWidget {
                       color: Colors.amber,
                       borderRadius: BorderRadius.circular(10)),
                   child: IconButton(
-                      onPressed: () {},
+                      onPressed: () async {
+                        final image = await ImagePicker()
+                            .pickImage(source: ImageSource.gallery);
+                        if (image != null) {
+                          context
+                              .read<HomeBloc>()
+                              .add(PicUserImgEvent(imagePath: image.path));
+                        } else {}
+                      },
                       icon: const Icon(
                         Icons.edit,
                         color: Colors.white,

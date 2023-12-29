@@ -1,6 +1,6 @@
 class Url {
   static const headers = {'Content-Type': 'application/json'};
-  static const baseUrl = "https://zippyroutes.online";
+  static const baseUrl = "http://10.4.2.89:8080";
   // 10.4.4.163
   // 10.0.2.2
   static const signUpUser = "/signup";

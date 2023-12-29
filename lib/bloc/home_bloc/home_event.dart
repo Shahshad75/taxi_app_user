@@ -49,3 +49,8 @@ final class SearchDriverEvent extends HomeEvent {
 final class CompleteRideEvent extends HomeEvent {}
 
 final class NormalMapEvent extends HomeEvent {}
+
+final class PicUserImgEvent extends HomeEvent {
+  final String imagePath;
+  PicUserImgEvent({required this.imagePath});
+}
