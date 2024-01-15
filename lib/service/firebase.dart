@@ -10,7 +10,7 @@ import 'package:taxi_app_user/service/sharedpref.dart';
 class FirebaseHelper {
   static FirebaseMessaging fMessage = FirebaseMessaging.instance;
   static bool added = false;
-
+   
   static Future<void> getFirebaseMessagingToken() async {
     await fMessage.requestPermission();
 

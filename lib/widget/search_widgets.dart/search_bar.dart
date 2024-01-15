@@ -70,7 +70,8 @@ class LocationPickerBar extends StatelessWidget {
                             return CustomTextfield(
                               suffixIcon: IconButton(
                                   onPressed: () async {
-                                    await CurrentLocation.getCurrentLocation(context);
+                                    await CurrentLocation.getCurrentLocation(
+                                        context);
                                   },
                                   icon: const Icon(Icons.my_location_rounded)),
                               controller: picupLocation,
@@ -119,6 +120,7 @@ class LocationPickerBar extends StatelessWidget {
                       endlat: endlat,
                       endlong: endlong));
                   showModalBottomSheet(
+                    isDismissible: false,
                     context: context,
                     builder: (BuildContext context) => BottomSheetContent(
                         dropOffPlaceName: endLoaction.text.trim(),
